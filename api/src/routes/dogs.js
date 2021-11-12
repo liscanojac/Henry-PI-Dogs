@@ -82,80 +82,36 @@ router.get('/:id', async (req, res) => {
 
   try {
 
-    const dogsFromApi = await getApiDogs();
+    if (id.length > 2) {
 
-    if (!isNaN(id)) {
+      const dogsFromDb = await getDbDogs();
+
+      var dogFoundByDbId = dogsFromDb.find(dog => dog.id === id);
+
+      if (!dogFoundByDbId) {
+        return res.status(404).send({ info: "Dog not found"});
+      }
+      return res.send(dogFoundByDbId);
+
+    } 
+    
+    if(!isNaN(id)) {
+
+      const dogsFromApi = await getApiDogs();
 
       var dogFoundById = dogsFromApi.find(dog => dog.id == id);
 
       if(!dogFoundById) {
 
-        return res.status(404).send('Dog not found');
+        return res.status(404).send({ info: "Dog not found"});
       }
 
       return res.send(dogFoundById);
     }
-
-    if (id === 'db') {
-      const dogsFromDb = await Dog.findAll();
-
-      // res.json(dogsFromDb);
-
-      return res.json(dogsFromDb);
-    }
-    res.status(400).send('Incorrect ID');
+    res.status(400).send({info: "Incorrect ID"});
   } catch(error) {
     console.log(error);
   }
 });
-
-// // testing database
-
-// router.get('/db', async (req, res) => {
-
-//   try {
-
-//     const dogsFromDb = await Dog.findAll();
-
-//     res.json(dogsFromDb);
-
-//   } catch(error) {
-//     console.log(error);
-//   }
-// })
-
-
-
-// Post
-
-router.post('/', async (req, res) => {
-
-  const { name, height, weight, life_span, temperament } = req.body;
-
-  // if (name && height && weight && life_span && temperament) {
-  if (temperament) {
-
-    try {
-
-      // const newDog = await Dog.create({
-      //   name,
-      //   weight,
-      //   height,
-      //   life_span
-      // });
-
-      // newDog.addTemperament()
-      let temperamentDb = await Temperament.findAll({
-        where: { name: temperament}
-      });
-      
-      console.log(temperamentDb);
-
-      res.send('ok');
-    } catch(error) {
-      return res.send({msg: "Datos del perro cargados de manera incorrecta"});
-    }
-  }
-})
 
 module.exports = router;

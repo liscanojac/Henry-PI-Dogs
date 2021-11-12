@@ -7,7 +7,7 @@ const getTemperamentsFromAPI = async () => {
 
     const dogs = await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`);
 
-    // console.log(dogs);
+    // console.log(dogs.data);
 
     var temperaments = [];
 
@@ -42,4 +42,4 @@ const getTemperamentsFromAPI = async () => {
   }
 }
 
-module.exports = getTemperamentsFromAPI
+module.exports = getTemperamentsFromAPI;

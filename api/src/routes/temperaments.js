@@ -10,9 +10,11 @@ router.get('/', async (req, res) => {
 
     const temperaments = await Temperament.findAll();
     
-    const temperamentsList = temperaments.map(temperament => temperament.name);
+    const temperamentsList = [];
 
-    res.json(temperamentsList);
+    
+
+    res.json(temperaments);
 
   } catch(error) {
     res.sendStatus(500);

@@ -14,18 +14,13 @@ const getTemperamentsFromAPI = async () => {
     for (var i = 0; i < dogs.data.length; i++) {
 
       var dogTemperaments = dogs.data[i].temperament;
-      // console.log(dogTemperaments);
       if (dogTemperaments) {
-        temperaments = temperaments.concat(dogTemperaments.split(','));
-      }
-      
+        temperaments = temperaments.concat(dogTemperaments.split(', '));
+      }  
     }
-    // console.log(temperaments);
 
-    var setUniqueTemperaments = new Set(temperaments.sort());
-
-    var uniqueTemperaments = [...setUniqueTemperaments];
-    // console.log(uniqueTemperaments.length);
+    var uniqueTemperaments = [...new Set(temperaments)];
+    uniqueTemperaments.sort();
 
     uniqueTemperaments.map(uniqueTemperament => {
 

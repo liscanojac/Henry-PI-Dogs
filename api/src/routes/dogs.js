@@ -82,7 +82,7 @@ router.get('/:id', async (req, res) => {
 
   try {
 
-    if (id.length > 2) {
+    if (id.length > 3) {
 
       const dogsFromDb = await getDbDogs();
 

@@ -60,3 +60,11 @@ export function getTemperaments() {
     });
   };
 };
+
+export function filterDogsByTemperament(payload) {
+
+  return {
+    type: ActionTypes.FILTER_BY_TEMPERAMENT,
+    payload
+  }
+}

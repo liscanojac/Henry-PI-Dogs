@@ -7,7 +7,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDogs, getTemperaments } from "../../redux/actions";
+import { filterDogsByTemperament, getDogs, getTemperaments } from "../../redux/actions";
+import Card from "../Card/Card";
+import Pagination from "../Pagination/Pagination";
 
 export default function Home() {
 
@@ -17,6 +19,20 @@ export default function Home() {
   // este hook es lo mismo que usar el mapStateToProps. Con useSelector traeme en esa constante todo lo que esta en el estado de dogs
   // me trae desde el reducer el estado dogs donde están todos los perros
   const allTemperaments = useSelector((state) => state.temperaments);
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  // here we are setting a state with our first current page and get setState thta controls the page number
+  const [dogsPerPage] = useState(8);
+  const indexOfLastDogOnPage = currentPage * dogsPerPage;
+  const indexOfFirstDogOnPage = indexOfLastDogOnPage - dogsPerPage;
+
+  const currentPageDogs = allDogs.slice(indexOfFirstDogOnPage, indexOfLastDogOnPage);
+
+  const paginationChanger = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
+  
 
   useEffect(() => {
     dispatch(getDogs())
@@ -28,9 +44,17 @@ export default function Home() {
     dispatch(getTemperaments())
   }, [dispatch]);
 
+  // esto refresca la pagina
   function handleClick(e) {
     e.preventDefault();
     dispatch(getDogs());
+  }
+
+  // Filter By Temperaments
+
+  function handleFilterByTemperaments(e) {
+    e.preventDefault();
+    dispatch(filterDogsByTemperament(e.target.value));
   }
 
   return (
@@ -54,8 +78,8 @@ export default function Home() {
         </select>
       </div>
       <div>
-        <select>
-          <option>Select Temperament</option>
+        <select onClick={(e) => handleFilterByTemperaments(e)}>
+          <option value="all">Select Temperament</option>
           {allTemperaments && allTemperaments.map((temperament) => (
             <option key={temperament.id}>{temperament.name}</option>
           ))}
@@ -64,9 +88,27 @@ export default function Home() {
       <div>
         <select>
           <option>Select Source</option>
-          <option value="weightAscendant">API</option>
-          <option value="weightDescendant">DB</option>
+          <option value="all">All</option>
+          <option value="onlyFromApi">API</option>
+          <option value="onlyFromDb">DB</option>
         </select>
+      </div>
+      {
+        currentPageDogs && currentPageDogs.map((dog) => {
+          return <Card 
+                    key={dog.id} 
+                    name={dog.name} 
+                    image={dog.image} 
+                    temperament={dog.temperament} weight={dog.weight} 
+                    />
+        })
+      }
+      <div>
+        <Pagination 
+          totalAmountOfDogs={allDogs.length}
+          dogsPerPage={dogsPerPage}
+          paginationChanger={paginationChanger}
+        />
       </div>
     </div>
   )

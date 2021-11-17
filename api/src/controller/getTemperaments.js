@@ -20,7 +20,7 @@ const getTemperamentsFromAPI = async () => {
     }
 
     var uniqueTemperaments = [...new Set(temperaments)];
-    uniqueTemperaments.sort();
+    // uniqueTemperaments.sort();
 
     uniqueTemperaments.map(uniqueTemperament => {
 

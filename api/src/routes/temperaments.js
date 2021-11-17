@@ -8,11 +8,11 @@ router.get('/', async (req, res) => {
 
   try {
 
-    const temperaments = await Temperament.findAll();
-    
-    const temperamentsList = [];
-
-    
+    const temperaments = await Temperament.findAll({
+      order: [
+        ['name', 'ASC']
+      ]
+    });    
 
     res.json(temperaments);
 

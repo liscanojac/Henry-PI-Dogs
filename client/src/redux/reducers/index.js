@@ -44,6 +44,22 @@ function rootReducer(state = initialState, action) {
       };
     case ActionTypes.POST_DOG:
       return state;
+    case ActionTypes.FILTER_BY_TEMPERAMENT:
+
+      const allDogs = state.allDogs;
+
+      if (action.payload === "all") {
+        return {
+          ...state,
+          dogs: allDogs
+        };
+      }
+      const filteredDogs = allDogs.filter((dog) => dog.temperament?.includes(action.payload));
+
+      return {
+        ...state,
+        dogs: filteredDogs
+      };
     default:
       return state;
   }

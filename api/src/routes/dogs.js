@@ -16,6 +16,19 @@ const getApiDogs = async () => {
 
     var dog = wholeApi.data[i];
 
+    if (dog.weight.metric === 'NaN') {
+
+      var imperialWeight = dog.weight.imperial.split(' ');
+      var metricWeight = [Math.round(0.45 * Number(imperialWeight[0])), Math.round(0.45 * Number(imperialWeight[2]))];
+      dog.weight.metric = metricWeight.join(' - ')
+    }
+    if (dog.height.metric === 'NaN') {
+
+      var imperialHeight = dog.height.imperial.split(' ');
+      var metricHeight = [Math.round(2.54 * Number(imperialHeight[0])), Math.round(2.54 * Number(imperialHeight[2]))];
+      dog.height.metric = metricHeight.join(' - ')
+    }
+
     var dogDetails = {
       id : dog.id,
       name : dog.name,

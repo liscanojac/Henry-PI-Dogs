@@ -15,10 +15,13 @@ const initialState = {
   dogsByName: [],
   dogsByWeight: [],
   temperaments: [],
-  dogDetails: []
+  dogDetails: [],
+  temperamentsSelected: []
 }
 
 function rootReducer(state = initialState, action) {
+
+  const allDogs = state.allDogs;
 
   switch(action.type) {
     case ActionTypes.GET_DOGS:
@@ -46,8 +49,6 @@ function rootReducer(state = initialState, action) {
       return state;
     case ActionTypes.FILTER_BY_TEMPERAMENT:
 
-      const allDogs = state.allDogs;
-
       if (action.payload === "all") {
         return {
           ...state,
@@ -59,6 +60,94 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         dogs: filteredDogs
+      };
+    case ActionTypes.FILTER_DOGS_BY_SOURCE:
+
+      if (action.payload === "onlyFromDb") {
+        
+        const dogsCreated = allDogs.filter((dog) => dog.created_in_db);
+
+        return {
+          ...state,
+          dogs: dogsCreated
+        }
+      }
+      if (action.payload === "onlyFromApi") {
+
+        const dogsFromApi = allDogs.filter((dog) => !dog.created_in_db);
+
+        return {
+          ...state,
+          dogs: dogsFromApi
+        };
+      }
+      return {
+        ...state,
+        dogs: allDogs
+      };
+    case ActionTypes.ORDER_BY_NAME:
+
+      if (action.payload === "nameAscendant") {
+
+        const dogsAscendantByName = state.dogs.sort((a, b) => {
+          if (a.name > b.name) return 1;
+          if (b.name > a.name) return -1;
+          return 0;
+        });
+
+        return {
+          ...state,
+          dogs: dogsAscendantByName
+        }
+      }
+      if (action.payload === "nameDescendant") {
+
+        const dogsDescendantByName = state.dogs.sort((a, b) => {
+          if (a.name < b.name) return 1;
+          if (b.name < a.name) return -1;
+          return 0;
+        });
+
+        return {
+          ...state,
+          dogs: dogsDescendantByName
+        }
+      }
+      return {
+        ...state,
+        dogs: allDogs
+      };
+    case ActionTypes.ORDER_BY_WEIGHT:
+
+      if (action.payload === "weightAscendant") {
+
+        const dogsAscendantByWeight = state.dogs.sort((a, b) => {
+          if (a.avgWeight > b.avgWeight) return 1;
+          if (b.avgWeight > a.avgWeight) return -1;
+          return 0;
+        });
+
+        return {
+          ...state,
+          dogs: dogsAscendantByWeight
+        }
+      }
+      if (action.payload === "weightDescendant") {
+
+        const dogsDescendantByWeight = state.dogs.sort((a, b) => {
+          if (a.avgWeight < b.avgWeight) return 1;
+          if (b.avgWeight < a.avgWeight) return -1;
+          return 0;
+        });
+
+        return {
+          ...state,
+          dogs: dogsDescendantByWeight
+        }
+      }
+      return {
+        ...state,
+        dogs: allDogs
       };
     default:
       return state;

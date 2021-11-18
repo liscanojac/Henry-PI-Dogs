@@ -62,9 +62,31 @@ export function getTemperaments() {
 };
 
 export function filterDogsByTemperament(payload) {
-
+  
   return {
     type: ActionTypes.FILTER_BY_TEMPERAMENT,
+    payload
+  }
+}
+
+export function filterDogsBySource(payload) {
+
+  return {
+    type: ActionTypes.FILTER_DOGS_BY_SOURCE,
+    payload
+  }
+}
+
+export function sortByName(payload) {
+  return {
+    type: ActionTypes.ORDER_BY_NAME,
+    payload
+  }
+}
+
+export function sortByWeight(payload) {
+  return {
+    type: ActionTypes.ORDER_BY_WEIGHT,
     payload
   }
 }

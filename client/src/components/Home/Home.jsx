@@ -7,7 +7,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { filterDogsByTemperament, getDogs, getTemperaments } from "../../redux/actions";
+import { filterDogsBySource, filterDogsByTemperament, getDogs, getTemperaments, sortByName, sortByWeight } from "../../redux/actions";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 
@@ -24,6 +24,10 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   // here we are setting a state with our first current page and get setState thta controls the page number
   const [dogsPerPage] = useState(8);
+  // const [temperamentsSelected, setTemperamentsSelected] = useState([]);
+  const [orderByName, setOrderByName] = useState();
+  const [orderByWeight, setOrderByWeight] = useState();
+
   const indexOfLastDogOnPage = currentPage * dogsPerPage;
   const indexOfFirstDogOnPage = indexOfLastDogOnPage - dogsPerPage;
 
@@ -57,6 +61,39 @@ export default function Home() {
     dispatch(filterDogsByTemperament(e.target.value));
   }
 
+  // function handleFilterByTemperaments02(e) {
+  //   e.preventDefault();
+  //   if (!temperamentsSelected.includes(e.target.value) && e.target.value !== 'all') {
+  //     setTemperamentsSelected([...temperamentsSelected, e.target.value]);
+  //   }
+  //   dispatch(filterDogsByTemperament(temperamentsSelected));
+  // }
+
+  // Filter By Source
+
+  function handleFilterBySource(e) {
+    e.preventDefault();
+    dispatch(filterDogsBySource(e.target.value));
+  }
+
+  // Sort by Name
+
+  function handleSortByName(e) {
+    e.preventDefault();
+    dispatch(sortByName(e.target.value));
+    setCurrentPage(1);
+    setOrderByName(`${e.target.value}`);
+  }
+
+  // Sort by Weight
+
+  function handleSortByWeight(e) {
+    e.preventDefault();
+    dispatch(sortByWeight(e.target.value));
+    setCurrentPage(1);
+    setOrderByWeight(`${e.target.value}`);
+  }
+
   return (
     <div>
       <div>
@@ -64,29 +101,41 @@ export default function Home() {
         <button onClick={e => {handleClick(e)}}>Reload</button>
       </div>
       <div>
-        <select>
+        <select onChange={(e) => handleSortByName(e)}>
           <option>Sort by Name</option>
           <option value="nameAscendant">A to Z</option>
           <option value="nameDescendant">Z to A</option>
         </select>
       </div>
       <div>
-        <select>
+        <select onChange={(e) => handleSortByWeight(e)}>
           <option>Sort by Weight</option>
           <option value="weightAscendant">Ascendent</option>
           <option value="weightDescendant">Descendent</option>
         </select>
       </div>
       <div>
-        <select onClick={(e) => handleFilterByTemperaments(e)}>
+        {/* <form>
+          {allTemperaments && allTemperaments.map((temperament) => {
+            return <label key={temperament.id}>
+              {temperament.name}: <input type="checkbox" onChange={(e) => handleFilterByTemperaments(e)} />
+            </label>
+          })}
+        </form> */}
+        <select onChange={(e) => handleFilterByTemperaments(e)}>
           <option value="all">Select Temperament</option>
           {allTemperaments && allTemperaments.map((temperament) => (
             <option key={temperament.id}>{temperament.name}</option>
           ))}
         </select>
+        {/* <div>
+          {temperamentsSelected.length && temperamentsSelected.map((temperament, index) => {
+            return <p key={index}>{temperament}</p>
+          })}
+        </div> */}
       </div>
       <div>
-        <select>
+        <select onChange={(e) => handleFilterBySource(e)}>
           <option>Select Source</option>
           <option value="all">All</option>
           <option value="onlyFromApi">API</option>
@@ -104,11 +153,14 @@ export default function Home() {
         })
       }
       <div>
-        <Pagination 
+        {
+        allDogs.length > 0 && <Pagination 
           totalAmountOfDogs={allDogs.length}
           dogsPerPage={dogsPerPage}
           paginationChanger={paginationChanger}
         />
+        }
+        {/* {!allDogs.length && <p>no pagination to show</p>} */}
       </div>
     </div>
   )

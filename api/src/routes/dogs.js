@@ -81,6 +81,7 @@ const getDbDogs = async () => {
 
           temperamentStr += dogTemperament + ', ';
         }
+        temperamentStr = temperamentStr.substring(0, temperamentStr.length - 2);
       }
       var avgWeight = dogDB.weight.split(' ');
 

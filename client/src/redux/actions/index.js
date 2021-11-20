@@ -90,3 +90,23 @@ export function sortByWeight(payload) {
     payload
   }
 }
+
+export function postDog(payload) {
+  console.log(payload);
+  return async function(dispatch) {
+
+    try {
+
+      var json = await axios.post("http://localhost:3001/dog/", payload);
+      console.log(json);
+
+      return dispatch({
+        type: ActionTypes.POST_DOG,
+        payload: json.data
+      });
+      // return json;
+    } catch(err) {
+      console.log(err);
+    }
+  };
+}

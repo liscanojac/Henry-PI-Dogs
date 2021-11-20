@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 // import testTemperaments from './components/testTemperaments';
 import LandingPage from './components/LandingPage/LandingPage';
 import Home from './components/Home/Home';
+import CreateDog from './components/CreateDog/CreateDog';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/home" element={<Home />}></Route>
+          <Route path="/dog" element={<CreateDog />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

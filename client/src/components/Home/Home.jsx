@@ -4,12 +4,13 @@
 // import { getDogs } from "../../actions";
 // import { NavLink, Link } from "react-router-dom";
 
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { filterDogsBySource, filterDogsByTemperament, getDogs, getTemperaments, sortByName, sortByWeight } from "../../redux/actions";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
+import SearchBar from "../SearchBar/SearchBar";
 
 export default function Home() {
 
@@ -101,6 +102,14 @@ export default function Home() {
         <button onClick={e => {handleClick(e)}}>Reload</button>
       </div>
       <div>
+        <SearchBar />
+      </div>
+      <div>
+        <Link to="/dog">
+          <button>Create your own breed!</button>
+        </Link>
+      </div>
+      <div>
         <select onChange={(e) => handleSortByName(e)}>
           <option>Sort by Name</option>
           <option value="nameAscendant">A to Z</option>
@@ -109,7 +118,7 @@ export default function Home() {
       </div>
       <div>
         <select onChange={(e) => handleSortByWeight(e)}>
-          <option>Sort by Weight</option>
+          <option value="originalOrder">Sort by Weight</option>
           <option value="weightAscendant">Ascendent</option>
           <option value="weightDescendant">Descendent</option>
         </select>
@@ -123,7 +132,7 @@ export default function Home() {
           })}
         </form> */}
         <select onChange={(e) => handleFilterByTemperaments(e)}>
-          <option value="all">Select Temperament</option>
+          <option>Select Temperament</option>
           {allTemperaments && allTemperaments.map((temperament) => (
             <option key={temperament.id}>{temperament.name}</option>
           ))}

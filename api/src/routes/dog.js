@@ -4,7 +4,7 @@ const router = Router();
 
 router.post('/', async (req, res) => {
 
-  const { name, height, weight, life_span, image, temperament } = req.body;
+  const { name, height, weight, life_span, temperament } = req.body;
 
   try {
 
@@ -12,8 +12,7 @@ router.post('/', async (req, res) => {
       name,
       height,
       weight,
-      life_span,
-      image
+      life_span
     });
 
     newDog.addTemperaments(temperament);

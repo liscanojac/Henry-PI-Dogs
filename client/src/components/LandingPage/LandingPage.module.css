@@ -1,0 +1,9 @@
+.body{
+  height: 100vh;
+}
+
+.dogBg {
+  background-image: url(./images/pexels-pixabay-65928.jpg);
+  z-index: 2;
+  height: 100%;
+}

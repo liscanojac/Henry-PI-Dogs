@@ -6,16 +6,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage/LandingPage';
 import Home from './components/Home/Home';
 import CreateDog from './components/CreateDog/CreateDog';
+import { DogDetails } from './components/Details/Details';
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="App">
-        <h1>Henry Dogs</h1>
+      <div>
+        {/* <h1>Henry Dogs</h1> */}
         <Routes>
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/dog" element={<CreateDog />}></Route>
+          <Route path="/dogs/:id" element={<DogDetails />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

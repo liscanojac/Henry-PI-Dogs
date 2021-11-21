@@ -153,13 +153,16 @@ export default function Home() {
       </div>
       {
         currentPageDogs && currentPageDogs.map((dog) => {
-          return <Card 
+          return (
+                  <Link key={dog.id} to={"/dogs/" + dog.id}>
+                    <Card 
                     key={dog.id} 
                     name={dog.name} 
                     image={dog.image} 
                     temperament={dog.temperament} weight={dog.weight} 
                     />
-        })
+                  </Link>
+        )})
       }
       <div>
         {

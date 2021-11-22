@@ -1,9 +1,3 @@
-// import React from "react";
-// import { useState, useEffect } from "react";
-// import { useDispatch, useSelector } from "react-redux"
-// import { getDogs } from "../../actions";
-// import { NavLink, Link } from "react-router-dom";
-
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,12 +5,15 @@ import { filterDogsBySource, filterDogsByTemperament, getDogs, getTemperaments, 
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
+import styles from "./Home.module.css";
+import notFoundImg from "../NotFound/images/notFound.png"
 
 export default function Home() {
 
   const dispatch = useDispatch();
 
   const allDogs = useSelector((state) => state.dogs);
+  const allDogsCopy = useSelector((state) => state.allDogs);
   // este hook es lo mismo que usar el mapStateToProps. Con useSelector traeme en esa constante todo lo que esta en el estado de dogs
   // me trae desde el reducer el estado dogs donde están todos los perros
   const allTemperaments = useSelector((state) => state.temperaments);
@@ -62,14 +59,6 @@ export default function Home() {
     dispatch(filterDogsByTemperament(e.target.value));
   }
 
-  // function handleFilterByTemperaments02(e) {
-  //   e.preventDefault();
-  //   if (!temperamentsSelected.includes(e.target.value) && e.target.value !== 'all') {
-  //     setTemperamentsSelected([...temperamentsSelected, e.target.value]);
-  //   }
-  //   dispatch(filterDogsByTemperament(temperamentsSelected));
-  // }
-
   // Filter By Source
 
   function handleFilterBySource(e) {
@@ -97,73 +86,78 @@ export default function Home() {
 
   return (
     <div>
-      <div>
-        <h1>Aca irian mis perritos</h1>
-        <button onClick={e => {handleClick(e)}}>Reload</button>
+      <div className={`${styles.titleBar} flex`}>
+        <h2 className="special-heading">PI-Dogs / Juan Canelon</h2>
+        {/* <button onClick={e => {handleClick(e)}}>Reload</button> */}
+        <div>
+          <Link to="/home">
+            <button className={`boton ${styles.linkBtn}`}>Home</button>
+          </Link>
+          <Link to="/dog">
+            <button className={`boton ${styles.linkBtn}`}>Create your own breed</button>
+          </Link>
+        </div>
       </div>
-      <div>
+      <div className={`${styles.filterBar} flex`}>
+        <div>
+          <select onChange={(e) => handleSortByName(e)} defaultValue="default">
+            <option value="default" disabled hidden>Sort by Name</option>
+            <option value="nameAscendant">A to Z</option>
+            <option value="nameDescendant">Z to A</option>
+          </select>
+        </div>
+        <div>
+          <select onChange={(e) => handleSortByWeight(e)} defaultValue="originalOrder">
+            <option value="originalOrder" disabled hidden>Sort by Weight</option>
+            <option value="weightAscendant">Ascendent</option>
+            <option value="weightDescendant">Descendent</option>
+          </select>
+        </div>
+        <div>
+          <select onChange={(e) => handleFilterByTemperaments(e)} defaultValue="default">
+            <option value="default" disabled hidden>Select Temperament</option>
+            {allTemperaments && allTemperaments.map((temperament) => (
+              <option key={temperament.id}>{temperament.name}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <select onChange={(e) => handleFilterBySource(e)} defaultValue="default">
+            <option value="default" disabled hidden>Select Source</option>
+            <option value="all">All</option>
+            <option value="onlyFromApi">API</option>
+            <option value="onlyFromDb">DB</option>
+          </select>
+        </div>
+        <div>
         <SearchBar />
       </div>
-      <div>
-        <Link to="/dog">
-          <button>Create your own breed!</button>
-        </Link>
       </div>
-      <div>
-        <select onChange={(e) => handleSortByName(e)}>
-          <option>Sort by Name</option>
-          <option value="nameAscendant">A to Z</option>
-          <option value="nameDescendant">Z to A</option>
-        </select>
+      <div className="contenedor">
+        <div className="grilla">
+          {
+          currentPageDogs && currentPageDogs.map((dog) => {
+            return (
+                    <Link key={dog.id} to={"/dogs/" + dog.id}>
+                      <Card 
+                      key={dog.id} 
+                      name={dog.name} 
+                      image={dog.image} 
+                      temperament={dog.temperament} weight={dog.weight} 
+                      />
+                    </Link>
+          )})
+        }
+        {!allDogs.length && allDogsCopy.length > 0 &&
+        <div className="contenedor centrar-texto">
+          <h2>No Dogs Found By That Name</h2>
+          <img className={styles.imgNotFound} src={notFoundImg} alt="" />
+        </div>
+        }
+        </div>
       </div>
-      <div>
-        <select onChange={(e) => handleSortByWeight(e)}>
-          <option value="originalOrder">Sort by Weight</option>
-          <option value="weightAscendant">Ascendent</option>
-          <option value="weightDescendant">Descendent</option>
-        </select>
-      </div>
-      <div>
-        {/* <form>
-          {allTemperaments && allTemperaments.map((temperament) => {
-            return <label key={temperament.id}>
-              {temperament.name}: <input type="checkbox" onChange={(e) => handleFilterByTemperaments(e)} />
-            </label>
-          })}
-        </form> */}
-        <select onChange={(e) => handleFilterByTemperaments(e)}>
-          <option>Select Temperament</option>
-          {allTemperaments && allTemperaments.map((temperament) => (
-            <option key={temperament.id}>{temperament.name}</option>
-          ))}
-        </select>
-        {/* <div>
-          {temperamentsSelected.length && temperamentsSelected.map((temperament, index) => {
-            return <p key={index}>{temperament}</p>
-          })}
-        </div> */}
-      </div>
-      <div>
-        <select onChange={(e) => handleFilterBySource(e)}>
-          <option>Select Source</option>
-          <option value="all">All</option>
-          <option value="onlyFromApi">API</option>
-          <option value="onlyFromDb">DB</option>
-        </select>
-      </div>
-      {
-        currentPageDogs && currentPageDogs.map((dog) => {
-          return (
-                  <Link key={dog.id} to={"/dogs/" + dog.id}>
-                    <Card 
-                    key={dog.id} 
-                    name={dog.name} 
-                    image={dog.image} 
-                    temperament={dog.temperament} weight={dog.weight} 
-                    />
-                  </Link>
-        )})
-      }
+      
+      
       <div>
         {
         allDogs.length > 0 && <Pagination 
@@ -172,7 +166,11 @@ export default function Home() {
           paginationChanger={paginationChanger}
         />
         }
-        {/* {!allDogs.length && <p>no pagination to show</p>} */}
+        {!allDogs.length && allDogsCopy.length > 0 && 
+        <div className="contenedor centrar-texto">
+          <p className={styles.noPagination}>no pagination to show</p>
+        </div>
+        }
       </div>
     </div>
   )

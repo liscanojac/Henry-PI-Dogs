@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../../redux/actions";
+import styles from "./CreateDog.module.css";
 
 function inputValidator(input) {
 
@@ -26,8 +27,8 @@ function inputValidator(input) {
   if (isNaN(Number(input.min_weight))){
     inputError.min_weight = "min_weight should be a number";
   }
-  if (isNaN(Number(input.min_weight))){
-    inputError.min_weight = "min_weight should be a number";
+  if (isNaN(Number(input.max_weight))){
+    inputError.max_weight = "max_weight should be a number";
   }
   if (input.min_height && input.min_height <= 0) {
     inputError.min_height = "Min height should be more than zero";
@@ -102,7 +103,7 @@ export default function CreateDog() {
     });
 
     setInputError(inputValidator({
-      ... input,
+      ...input,
       [e.target.name]: e.target.value
     }));
     // console.log(input);
@@ -119,7 +120,7 @@ export default function CreateDog() {
 
     if (input.temperaments.length > 0) {
       
-      for (var i = 0; i < input.temperaments.length; i++) {
+      for (let i = 0; i < input.temperaments.length; i++) {
         var temperamentFound = temperaments.find(temperament => temperament.name === input.temperaments[i]);
         temperamentsId.push(Number(temperamentFound.id));
       }
@@ -158,95 +159,159 @@ export default function CreateDog() {
 
   return (
     <div>
-      <Link to='/home'>
-        <button>Volver al Home</button>
-      </Link>
-      <h2>Crea tu perrito</h2>
-      <form onSubmit={handleSubmit}>
+      <div className={`${styles.titleBar} flex`}>
+        <h2 className="special-heading">PI-Dogs / Juan Canelon</h2>
+        {/* <button onClick={e => {handleClick(e)}}>Reload</button> */}
         <div>
-          <label>Name: </label>
-          <input 
-            type="text"
-            value={input.name}
-            name="name"
-            onChange={(e) => handleInputChanges(e)}
-          />
-          {inputError.name && (
-            <p>{inputError.name}</p>
-          )}
+          <Link to="/home">
+            <button className={`boton ${styles.linkBtn}`}>Home</button>
+          </Link>
+          <Link to="/dog">
+            <button className={`boton ${styles.linkBtn}`}>Create your own breed</button>
+          </Link>
         </div>
-        <div>
-          <label>Min Weight: </label>
-          <input 
-            type="text"
-            value={input.min_weight}
-            name="min_weight"
-            onChange={(e) => handleInputChanges(e)}
-          />
-        </div>
-        <div>
-          <label>Max Weight: </label>
-          <input 
-            type="text"
-            value={input.max_weight}
-            name="max_weight"
-            onChange={(e) => handleInputChanges(e)}
-          />
-        </div>
-        <div>
-          <label>Min. Height: </label>
-          <input 
-            type="text"
-            value={input.min_height}
-            name="min_height"
-            onChange={(e) => handleInputChanges(e)}
-          />
-        </div>
-        <div>
-          <label>Max Height: </label>
-          <input 
-            type="text"
-            value={input.max_height}
-            name="max_height"
-            onChange={(e) => handleInputChanges(e)}
-          />
-        </div>
-        <div>
-          <label>Life Span</label>
-          <input 
-            type="text"
-            value={input.life_span}
-            name="life_span"
-            onChange={(e) => handleInputChanges(e)}
-          />
-        </div>
-        <div>
-          <label>Choose Temperaments: </label>
-          <select defaultValue="default" onChange={(e) => handleTemperamentsSelection(e)}>
-            <option value="default" disabled hidden>Select Temperaments</option>
-            {temperaments && temperaments.map(  (temperament) => {
-              return (
-                <option key={temperament.id} value={temperament.name}>{temperament.name}</option>
-              )
-            })}
-          </select>
-          {input.temperaments.length > 0 && input.temperaments.map((temperament, id) => {
-            return (
-              <div key={id}>
-                <p>{temperament}</p>
-                <button 
-                  onClick={() => handleTemperamentDelete(temperament)}
-                >
-                  X
-                </button>
+      </div>
+      <div className="contenedor">
+        <div className={`flex ${styles.createDogFlex}`}>
+          <h2>Create your own breed</h2>
+          <form onSubmit={handleSubmit}>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Name: </label>
+                <input 
+                  type="text"
+                  value={input.name}
+                  name="name"
+                  onChange={(e) => handleInputChanges(e)}
+                />
+              </div>              
+              {inputError.name && (
+                <p>{inputError.name}</p>
+              )}
+            </div>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Min Weight: </label>
+                <input 
+                  type="text"
+                  value={input.min_weight}
+                  name="min_weight"
+                  onChange={(e) => handleInputChanges(e)}
+                />
               </div>
-            )
-          })}
+              {inputError.min_weight && (
+                <p>{inputError.min_weight}</p>
+              )}
+            </div>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Max Weight: </label>
+                <input 
+                  type="text"
+                  value={input.max_weight}
+                  name="max_weight"
+                  onChange={(e) => handleInputChanges(e)}
+                />
+              </div>
+              {inputError.max_weight && (
+                <p>{inputError.max_weight}</p>
+              )}
+            </div>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Min. Height: </label>
+                <input 
+                  type="text"
+                  value={input.min_height}
+                  name="min_height"
+                  onChange={(e) => handleInputChanges(e)}
+                />
+              </div>
+              {inputError.min_height && (
+                <p>{inputError.min_height}</p>
+              )}
+            </div>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Max Height: </label>
+                <input 
+                  type="text"
+                  value={input.max_height}
+                  name="max_height"
+                  onChange={(e) => handleInputChanges(e)}
+                />
+              </div>
+              {inputError.max_height && (
+                <p>{inputError.max_height}</p>
+              )}
+            </div>
+            <div className={`grilla my-1`}>
+              <div>
+                <label>Life Span</label>
+                <input 
+                  type="text"
+                  value={input.life_span}
+                  name="life_span"
+                  onChange={(e) => handleInputChanges(e)}
+                />
+              </div>
+              {inputError.life_span && (
+                <p>{inputError.life_span}</p>
+              )}
+            </div>
+            <div className={`grilla my-1 ${styles.temperamentsGrid}`}>
+              <div>
+                <div>
+                  <label>Choose Temperaments: </label>
+                  <select defaultValue="default" onChange={(e) => handleTemperamentsSelection(e)}>
+                    <option value="default" disabled hidden>Select Temperaments</option>
+                    {temperaments && temperaments.map(  (temperament) => {
+                      return (
+                        <option key={temperament.id} value={temperament.name}>{temperament.name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div>
+                  <button 
+                    className={`boton my-1 ${styles.submitBtn}`}
+                    type="submit" 
+                    disabled={Object.keys(inputError).length > 0}
+                    >
+                      Submit
+                    </button>
+                </div>
+              </div>
+              <div>
+                {input.temperaments.length > 0 && input.temperaments.map((temperament, id) => {
+                  return (
+                    <div key={id}>
+                      <div className={styles.temperamentCard}>
+                        <div className="flex">
+                        <p>{temperament}</p>
+                        <button 
+                          className={`${styles.temperamentCardBtn}`}
+                          onClick={() => handleTemperamentDelete(temperament)}
+                        >
+                          x
+                        </button>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+            
+            <div>
+              
+              
+            </div>
+            
+          </form>
         </div>
-        <div>
-          <button type="submit">Submit</button>
-        </div>
-      </form>
+      </div> 
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./Pagination.module.css"
 
 export default function Pagination({ dogsPerPage, totalAmountOfDogs, paginationChanger }) {
 
@@ -9,12 +10,13 @@ export default function Pagination({ dogsPerPage, totalAmountOfDogs, paginationC
     pageNumbers.push(i);
   }
   return (
-      <nav>
-        <ul>
+      <nav className={styles.nav}>
+        <ul className="flex">
           {pageNumbers.length && pageNumbers.map((number) => {
             return (
               <li key={number}>
-                <button 
+                <button
+                  className={styles.paginationBtn}
                   onClick={() => paginationChanger(number)}
                 >
                   {number}

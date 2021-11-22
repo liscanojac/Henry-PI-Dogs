@@ -6,7 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LandingPage from './components/LandingPage/LandingPage';
 import Home from './components/Home/Home';
 import CreateDog from './components/CreateDog/CreateDog';
-import { DogDetails } from './components/Details/Details';
+import DogDetails from './components/Details/Details';
+import NotFound from './components/NotFound/NotFound'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/home" element={<Home />}></Route>
           <Route path="/dog" element={<CreateDog />}></Route>
           <Route path="/dogs/:id" element={<DogDetails />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </div>
     </BrowserRouter>

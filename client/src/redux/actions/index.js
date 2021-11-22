@@ -39,12 +39,21 @@ export function getDogsByName(name) {
 
   return async function(dispatch) {
     
-    var json = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+    try {
+      var json = await axios.get(`http://localhost:3001/dogs?name=${name}`);
 
-    return dispatch({
-      type: ActionTypes.GET_DOGS_BY_NAME,
-      payload: json.data
-    });
+      return dispatch({
+        type: ActionTypes.GET_DOGS_BY_NAME,
+        payload: json.data
+      });
+
+    } catch(err) {
+      return dispatch({
+        type: ActionTypes.GET_DOGS_BY_NAME,
+        payload: []
+      })
+    }
+    
   };
 };
 

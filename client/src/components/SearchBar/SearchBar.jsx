@@ -20,19 +20,20 @@ export default function SearchBar() {
   }
 
   return (
-    <div>
+    <form onSubmit={handleSubmitButton}>
       <input 
         className={styles.searchBar}
         type="search"
         onChange={handleSearchBar}
         placeholder=""
+        value={searchedDog}
       />
       <button 
         className={styles.searchBtn}
         type="submit" 
-        onClick={handleSubmitButton}>
+        >
           Buscar
       </button>
-    </div>
+    </form>
   )
 }

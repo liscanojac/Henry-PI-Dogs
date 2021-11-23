@@ -7,6 +7,7 @@ import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
 import styles from "./Home.module.css";
 import notFoundImg from "../NotFound/images/notFound.png"
+import bone from "./images/bone.png";
 
 export default function Home() {
 
@@ -134,26 +135,30 @@ export default function Home() {
       </div>
       </div>
       <div className="contenedor">
-        <div className="grilla">
-          {
-          currentPageDogs && currentPageDogs.map((dog) => {
-            return (
-                    <Link key={dog.id} to={"/dogs/" + dog.id}>
-                      <Card 
-                      key={dog.id} 
-                      name={dog.name} 
-                      image={dog.image} 
-                      temperament={dog.temperament} weight={dog.weight} 
-                      />
-                    </Link>
-          )})
+        {!allDogs.length && !allDogsCopy.length &&
+        <div className="centrar-texto">
+          <img src={bone} className="bone" alt="" />
+          <p>Loading...</p>
+        </div>
         }
         {!allDogs.length && allDogsCopy.length > 0 &&
-        <div className="contenedor centrar-texto">
+        <div className="centrar-texto">
           <h2>No Dogs Found By That Name</h2>
           <img className={styles.imgNotFound} src={notFoundImg} alt="" />
         </div>
         }
+        <div className="grilla">
+          {
+          currentPageDogs && currentPageDogs.map((dog) => {
+            return (
+                    <Card 
+                      key={dog.id} 
+                      name={dog.name} 
+                      image={dog.image} 
+                      temperament={dog.temperament} weight={dog.weight} 
+                    />                    
+          )})
+        }    
         </div>
       </div>
       

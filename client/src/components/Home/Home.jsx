@@ -143,7 +143,7 @@ export default function Home() {
         }
         {!allDogs.length && allDogsCopy.length > 0 &&
         <div className="centrar-texto">
-          <h2>No Dogs Found By That Name</h2>
+          <h2>No Dogs Found</h2>
           <img className={styles.imgNotFound} src={notFoundImg} alt="" />
         </div>
         }

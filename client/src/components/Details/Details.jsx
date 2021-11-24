@@ -8,7 +8,7 @@ export default function DogDetails() {
 
   const dispatch = useDispatch();
   const { id } = useParams();
-  // console.log(id);
+  console.log(id);
   useEffect(() => {
     dispatch(getDogDetails(id))
   }, [dispatch, id]);

@@ -18,7 +18,7 @@ function App() {
           <Route path="/" element={<LandingPage />}></Route>
           <Route path="/home" element={<Home />}></Route>
           <Route path="/dog" element={<CreateDog />}></Route>
-          <Route path="/dogs/:id" element={<DogDetails />}></Route>
+          <Route path="home/dogs/:id" element={<DogDetails />}></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </div>

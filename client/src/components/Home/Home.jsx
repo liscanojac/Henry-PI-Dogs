@@ -152,6 +152,7 @@ export default function Home() {
           currentPageDogs && currentPageDogs.map((dog) => {
             return (
                     <Card 
+                      id={dog.id}
                       key={dog.id} 
                       name={dog.name} 
                       image={dog.image} 

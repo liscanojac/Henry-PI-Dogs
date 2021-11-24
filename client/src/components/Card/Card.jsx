@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./Card.css";
 
-export default function Card({ name, image, temperament, weight, key }) {
+export default function Card({ name, image, temperament, weight, id }) {
   
   return (
     // <div>
@@ -12,7 +12,7 @@ export default function Card({ name, image, temperament, weight, key }) {
     //   <p>{weight}</p>
     // </div>
     <div className="carta">
-      <Link key={key} className="cardLink" to={"/dogs/" + {key}}>
+      <Link className="cardLink" to={`dogs/${id}`}>
         <h3 className="centrar-texto">{name}</h3>
         <div className="grilla">
           <div className="imgContainer">

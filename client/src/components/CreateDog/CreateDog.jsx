@@ -276,7 +276,7 @@ export default function CreateDog() {
                   <button 
                     className={`boton my-1 ${styles.submitBtn}`}
                     type="submit" 
-                    disabled={Object.keys(inputError).length > 0}
+                    disabled={Object.keys(inputError).length > 0 || input.name === ""}
                     >
                       Submit
                     </button>
